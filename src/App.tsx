@@ -1,21 +1,16 @@
-import { useState } from 'react'
-import './App.css'
+import Container from "@mui/material/Container";
+import { Stack } from "@mui/material";
+import JobList from "./components/job-list/jobList";
+import Filters from "./components/filters/filters";
+import { jobList } from "./sample-data";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-      </div>
-      <h1>Hello World</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
-  )
+      <Container>
+        <Stack rowGap={4} width="100%">
+          <Filters />
+          <JobList jobs={jobList} />
+        </Stack>
+      </Container>
+  );
 }
-
-export default App
