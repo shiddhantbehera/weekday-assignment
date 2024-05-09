@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import JobDetails from "./job-details/job-details";
-import JobFooter from "./job footer/job-footer";
-import JobHeader from "./job header/job-header";
+import JobFooter from "./job-footer/job-footer";
+import JobHeader from "./job-header/job-header";
 import { Job } from "../../interface/job-type";
 
 interface JobCardProps {

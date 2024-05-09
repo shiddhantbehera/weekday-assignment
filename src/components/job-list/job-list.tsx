@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
-import JobCard from "../job-card/job-details/job-details";
 import { useAppDispatch, useAppSelector } from "../../api/hooks";
 import { GetJobsResponseBody, getJobs } from "../../api/api";
 import { appendJobs, incrementPageOffset } from "../../api/reducer";
 import InfiniteScroll from "./infinite-scroll";
+import JobCard from "../job-card/job-card";
 
 export default function JobList() {
   const pageOffset = useAppSelector((state) => state.jobs.pageOffset);
@@ -29,7 +29,7 @@ export default function JobList() {
     <Grid container spacing={2}>
       {jobs.map((job) => (
         <Grid item xs={12} sm={6} md={4} key={job.jdUid}>
-          <JobCard data={job} />
+          <JobCard job={job} />
         </Grid>
       ))}
       <Grid item xs={12}>
