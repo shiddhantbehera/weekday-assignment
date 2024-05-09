@@ -14,6 +14,6 @@ export type Job = {
 }
 
 export type DropdownValues = {
-	item: string;
+	label: string;
 	value: string;
 };

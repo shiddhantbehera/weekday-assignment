@@ -2,15 +2,20 @@ import Container from "@mui/material/Container";
 import { Stack } from "@mui/material";
 import JobList from "./components/job-list/jobList";
 import Filters from "./components/filters/filters";
-import { jobList } from "./sample-data";
+import { Provider as ReduxProvider } from "react-redux";
+import { store } from "./api/store";
 
-export default function App() {
+function App() {
   return (
-      <Container>
-        <Stack rowGap={4} width="100%">
-          <Filters />
-          <JobList jobs={jobList} />
-        </Stack>
-      </Container>
+    <ReduxProvider store={store}>
+        <Container>
+          <Stack rowGap={4} width="100%">
+            <Filters />
+            <JobList />
+          </Stack>
+        </Container>
+    </ReduxProvider>
   );
 }
+
+export default App;

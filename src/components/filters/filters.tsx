@@ -1,74 +1,92 @@
-import { useState } from "react";
 import { Stack, TextField } from "@mui/material";
 import Dropdown from "../../common/dropdown/dropdown";
-import { DropdownValues } from "../../interface/job-details";
-
-const defaultOpts: DropdownValues[] = [{ item: "TEST", value: "1" }];
+import { useAppDispatch, useAppSelector } from "../../api/hooks";
+import { filterOptions, selectedFilters } from "./filter-selectors";
+import { setLocation, setMinBasePay, setMinExperience, setRemote, setRole } from "../../api/job-filters";
+import MultiSelectDropdown from "../../common/dropdown/multi-drop";
+import { useState } from "react";
 
 export default function Filters() {
-  const [searchText, setSearchText] = useState("");
-  const [Selection, setSelection] = useState<DropdownValues | null>(
-    null
+  const [companyName, setSearchText] = useState("");
+  const dispatch = useAppDispatch();
+  const { location, minBasePay, remote, role, minExperience } = useAppSelector((state) =>
+    selectedFilters(state.filters)
+  );
+  const { locationOptions, minBasePayOptions, remoteOptions, roleOptions, minExperienceOptions } = useAppSelector((state) =>
+    filterOptions(state.filters)
   );
 
   return (
     <>
-      <Stack flexWrap={"wrap"} direction="row" columnGap={2} rowGap={1}>
+      <Stack flexWrap={"wrap"} direction="row" columnGap={2} rowGap={1} useFlexGap>
         <TextField
           placeholder="Search text"
           label="Company Name"
-          value={searchText}
+          value={companyName}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <Dropdown
-          options={defaultOpts}
-          value={Selection}
+        <MultiSelectDropdown
+          options={roleOptions}
+          value={role}
           label="Roles"
-          placeholder="Item select"
-          onChange={(_, newValue) => {
-            if (newValue !== null && "value" in newValue) {
-              setSelection(newValue);
+          placeholder="Select Roles"
+          onChange={(_, newValues) => {
+            if (Array.isArray(newValues)) {
+              dispatch(setRole(newValues));
             } else {
-              setSelection(null);
+              dispatch(setRole([]));
             }
           }}
         />
         <Dropdown
-          options={defaultOpts}
-          value={Selection}
-          label="Number of Employees"
+          options={minExperienceOptions}
+          value={minExperience}
+          label="Minimum Experience"
           placeholder="Item select"
           onChange={(_, newValue) => {
             if (newValue !== null && "value" in newValue) {
-              setSelection(newValue);
+              dispatch(setMinExperience(newValue));
             } else {
-              setSelection(null);
+              dispatch(setMinExperience(null));
             }
           }}
         />
-        <Dropdown
-          options={defaultOpts}
-          value={Selection}
+        <MultiSelectDropdown
+          value={remoteOptions}
+          options={remote}
           label="Remote"
-          placeholder="Item select"
-          onChange={(_, newValue) => {
-            if (newValue !== null && "value" in newValue) {
-              setSelection(newValue);
+          placeholder="select options"
+          onChange={(_, newValues) => {
+            if (Array.isArray(newValues)) {
+              dispatch(setRemote(newValues));
             } else {
-              setSelection(null);
+              dispatch(setRemote([]));
             }
           }}
         />
         <Dropdown
-          options={defaultOpts}
-          value={Selection}
-          label="Minimu Base Pay Salary"
+          value={minBasePay}
+          options={minBasePayOptions}
+          label="Minimum Base Pay Salary"
           placeholder="Item select"
           onChange={(_, newValue) => {
             if (newValue !== null && "value" in newValue) {
-              setSelection(newValue);
+              dispatch(setMinBasePay(newValue));
             } else {
-              setSelection(null);
+              dispatch(setMinBasePay(null));
+            }
+          }}
+        />
+        <MultiSelectDropdown
+          value={location}
+          options={locationOptions}
+          label="Location"
+          placeholder="Select location..."
+          onChange={(_, newValues) => {
+            if (Array.isArray(newValues)) {
+              dispatch(setLocation(newValues));
+            } else {
+              dispatch(setLocation([]));
             }
           }}
         />

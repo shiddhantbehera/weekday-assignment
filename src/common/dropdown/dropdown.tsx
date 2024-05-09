@@ -1,5 +1,5 @@
 import { Autocomplete, AutocompleteProps, TextField } from "@mui/material";
-import { DropdownValues } from "../../interface/job-details";
+import { DropdownValues } from "../../interface/job-type";
 
 interface DropdownProperties
 	extends Partial<
