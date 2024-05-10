@@ -23,6 +23,13 @@ export default function JobFooter({ data }: JobFooterProps) {
         >
           ⚡Apply
         </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+        >
+          Unlock referral asks
+        </Button>
       </Stack>
     </CardActions>
   );

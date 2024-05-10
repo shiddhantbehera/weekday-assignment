@@ -4,9 +4,8 @@ import { DropdownValues } from "../interface/job-type";
 const minExperienceOptions = Array(10)
   .fill(null)
   .map((_, index) => index + 1);
-const locationOptions = ["delhi", "mumbai", "chennai", "bangalore"];
-const remoteOptions = ["remote", "on-site",];
-const roleOptions = ["full-stack","frontend", "ios", "android", "tech-lead", "backend"];
+const locationOptions = ["Mumbai", "Delhi", "Bengaluru", "Chennai"];
+const roleOptions = ["full stack","frontend", "ios", "android", "tech lead", "backend"];
 const minBasePayOptions = Array(20)
   .fill(null)
   .map((_, index) => ({
@@ -18,7 +17,6 @@ type SelectedFiltersState = {
   minExperience: DropdownValues | null;
   companyName: string;
   location: DropdownValues[];
-  remote: DropdownValues[];
   role: DropdownValues[];
   minBasePay: DropdownValues | null;
 };
@@ -26,7 +24,6 @@ type SelectedFiltersState = {
 type FilterOptionsState = {
   minExperience: DropdownValues[];
   location: DropdownValues[];
-  remote: DropdownValues[];
   role: DropdownValues[];
   minBasePay: DropdownValues[];
 };
@@ -36,7 +33,13 @@ type ConvertToOptionItems = <T extends InputParam>(
   input: T[] | T
 ) => DropdownValues[] | DropdownValues;
 
-export const convertToOptionItems: ConvertToOptionItems = (input) => {
+export type FilterRootState = {
+  selected: SelectedFiltersState;
+  options: FilterOptionsState;
+};
+
+
+const convertToOptionItems: ConvertToOptionItems = (input) => {
   if (Array.isArray(input)) {
     const options: DropdownValues[] = input.map((item) => ({
       label: item.toString(),
@@ -49,18 +52,11 @@ export const convertToOptionItems: ConvertToOptionItems = (input) => {
     value: input.toString(),
   } as DropdownValues;
 };
-
-export type FilterRootState = {
-  selected: SelectedFiltersState;
-  options: FilterOptionsState;
-};
-
 const initialState: FilterRootState = {
   selected: {
     minExperience: null,
     companyName: "",
     location: [],
-    remote: [],
     role: [],
     minBasePay: null,
   },
@@ -69,12 +65,10 @@ const initialState: FilterRootState = {
       minExperienceOptions
     ) as DropdownValues[],
     location: convertToOptionItems(locationOptions) as DropdownValues[],
-    remote: convertToOptionItems(remoteOptions) as DropdownValues[],
     role: convertToOptionItems(roleOptions) as DropdownValues[],
     minBasePay: minBasePayOptions,
   },
 };
-
 const filterSlice = createSlice({
   name: "filters",
   initialState,
@@ -97,12 +91,6 @@ const filterSlice = createSlice({
     ) => {
       state.selected.location = action.payload;
     },
-    setRemote: (
-      state,
-      action: PayloadAction<SelectedFiltersState["remote"]>
-    ) => {
-      state.selected.remote = action.payload;
-    },
     setRole: (state, action: PayloadAction<SelectedFiltersState["role"]>) => {
       state.selected.role = action.payload;
     },
@@ -119,7 +107,6 @@ export const {
   setMinExperience,
   setCompanyName,
   setLocation,
-  setRemote,
   setRole,
   setMinBasePay,
 } = filterSlice.actions;

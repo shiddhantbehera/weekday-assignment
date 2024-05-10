@@ -2,28 +2,29 @@ import { Stack, TextField } from "@mui/material";
 import Dropdown from "../../common/dropdown/dropdown";
 import { useAppDispatch, useAppSelector } from "../../api/hooks";
 import { filterOptions, selectedFilters } from "./filter-selectors";
-import { setLocation, setMinBasePay, setMinExperience, setRemote, setRole } from "../../api/job-filters";
-import MultiSelectDropdown from "../../common/dropdown/multi-drop";
+import { setLocation, setMinBasePay, setMinExperience, setRole } from "../../api/job-filters";
+import MultiSelectDropdown from "../../common/dropdown/multiple-selection-dropdown";
 import { useState } from "react";
 
 export default function Filters() {
   const [companyName, setSearchText] = useState("");
   const dispatch = useAppDispatch();
-  const { location, minBasePay, remote, role, minExperience } = useAppSelector((state) =>
+  const { location, minBasePay, role, minExperience } = useAppSelector((state) =>
     selectedFilters(state.filters)
   );
-  const { locationOptions, minBasePayOptions, remoteOptions, roleOptions, minExperienceOptions } = useAppSelector((state) =>
+  const { locationOptions, minBasePayOptions, roleOptions, minExperienceOptions } = useAppSelector((state) =>
     filterOptions(state.filters)
   );
 
   return (
     <>
-      <Stack flexWrap={"wrap"} direction="row" columnGap={2} rowGap={1} useFlexGap>
+      <Stack flexWrap={"wrap"} direction="row" columnGap={3} rowGap={2} useFlexGap>
         <TextField
           placeholder="Search text"
           label="Company Name"
           value={companyName}
           onChange={(e) => setSearchText(e.target.value)}
+          size="small"
         />
         <MultiSelectDropdown
           options={roleOptions}
@@ -37,6 +38,7 @@ export default function Filters() {
               dispatch(setRole([]));
             }
           }}
+          size="small"
         />
         <Dropdown
           options={minExperienceOptions}
@@ -50,19 +52,7 @@ export default function Filters() {
               dispatch(setMinExperience(null));
             }
           }}
-        />
-        <MultiSelectDropdown
-          value={remoteOptions}
-          options={remote}
-          label="Remote"
-          placeholder="select options"
-          onChange={(_, newValues) => {
-            if (Array.isArray(newValues)) {
-              dispatch(setRemote(newValues));
-            } else {
-              dispatch(setRemote([]));
-            }
-          }}
+          size="small"
         />
         <Dropdown
           value={minBasePay}
@@ -76,6 +66,7 @@ export default function Filters() {
               dispatch(setMinBasePay(null));
             }
           }}
+          size="small"
         />
         <MultiSelectDropdown
           value={location}
@@ -89,6 +80,7 @@ export default function Filters() {
               dispatch(setLocation([]));
             }
           }}
+          size="small"
         />
       </Stack>
     </>

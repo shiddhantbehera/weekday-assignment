@@ -14,7 +14,7 @@ export default function JobHeader({ data }: JobHeaderProps) {
     <CardHeader
       title={
         <>
-          <Typography>{companyName}</Typography>
+          <Typography variant="h5">{companyName}</Typography>
           <Typography variant="h6">{jobRole}</Typography>
         </>
       }
@@ -23,7 +23,7 @@ export default function JobHeader({ data }: JobHeaderProps) {
         <Avatar
           src={logoUrl}
           alt={`${companyName} logo`}
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 3 }}
         />
       }
     />
